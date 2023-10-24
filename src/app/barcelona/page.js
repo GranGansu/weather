@@ -26,6 +26,7 @@ export default function Barcelona() {
   const [data, setData] = useState(null);
   const [index, setIndex] = useState(0);
   const [update, setUpdate] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [now, setNow] = useState(0);
 
   useEffect(() => {
@@ -33,9 +34,13 @@ export default function Barcelona() {
       console.log('actualizado');
       setUpdate((prev) => !prev);
     }, 600000);
+    setLoading(true);
     fetch('https://api.open-meteo.com/v1/forecast?latitude=41.390205&longitude=2.154007&hourly=temperature_2m,precipitation_probability,uv_index&forecast_days=2')
       .then((res) => res.json())
       .then((data) => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 300);
         setNow(dayjs().format());
         setData(data);
         const now = new Date();
@@ -80,13 +85,18 @@ export default function Barcelona() {
             <div className='grid grid-cols-2 gap-x-6'>
               <div className='border-b pb-4'>
                 <span className='text-blue-400'>Ahora</span>
-                <p className='text-5xl'>
+                <p className={`${loading && 'blur'} text-5xl`}>
                   {data.hourly.temperature_2m[index]}° <span className='text-sm text-gray-400 hidden'>{data.hourly.temperature_2m[index + 1]}</span>
                 </p>
               </div>
               <div className='text-gray-400  pb-2 hover:text-white cursor-pointer'>
-                <span className='text-gray-500'>{index + 1}:00hs</span>
-                <p className='text-4xl'>
+                <span className='text-gray-500'>
+                  {dayjs(data.hourly.time[index + 1])
+                    .format('HH:00')
+                    .toString()}
+                  hs
+                </span>
+                <p className={`${loading && 'blur'} text-4xl`}>
                   {data.hourly.temperature_2m[index + 1]}° <span className='text-sm text-gray-400 hidden'>{data.hourly.temperature_2m[index + 1]}</span>
                 </p>
               </div>

@@ -4,20 +4,20 @@ import { useState } from 'react';
 
 export default function Pruebas() {
   const [listado, setListado] = useState([]);
+  const [text, setText] = useState('');
   return (
-    <div className='flex flex-col gap-y-6 max-w-4xl mx-auto py-6'>
-      <h1>Prueba 1</h1>
-      <div className='border p-6 '>
-        <h3>Agregar:</h3>
+    <div className='flex flex-col gap-y-6 max-w-4xl mx-auto py-6 dark:bg-black dark:text-white'>
+      <h1 className='text-2xl font-bold'>Prueba 1</h1>
+      <div className='border p-6 dark:bg-gray-600 '>
+        <h3 className='mb-2'>Agregar:</h3>
         <form
           className='flex flex-col'
           onKeyUp={(e) => {
             if (e.code === 'Enter') {
-              console.log(e);
-
               setListado((prev) => {
                 const nuArray = Array.from(prev);
                 nuArray.push(e.target.value);
+                setText('');
                 return nuArray;
               });
             }
@@ -30,11 +30,18 @@ export default function Pruebas() {
               return nuArray;
             });
           }}>
-          <textarea className='border p-2' id='texto'></textarea>
+          <textarea
+            autoFocus='true'
+            className='border p-2'
+            id='texto'
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+            }}></textarea>
           <button className='p-2 bg-blue-700 text-white'>Agregar</button>
         </form>
       </div>
-      <div className='border p-6'>
+      <div className='border p-6 dark:bg-gray-600'>
         <h2>Listado:</h2>
         <ul className='flex flex-col'>
           {listado.map((item, i) => {
@@ -49,7 +56,7 @@ export default function Pruebas() {
                     })
                   );
                 }}>
-                <p className='opacity-0 px-2 flex gap-x-1 items-center bg-red-300 hover:opacity-100 z-10 absolute w-full h-full left-0 top-0'>
+                <p className='opacity-0 px-2 flex gap-x-1 items-center bg-red-300 hover:opacity-100 z-10 absolutes'>
                   <b>Delete</b> {item}
                 </p>
                 <p className='z-0 relative'>{item}</p>
