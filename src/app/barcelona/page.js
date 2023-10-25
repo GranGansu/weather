@@ -31,7 +31,6 @@ export default function Barcelona() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log('actualizado');
       setUpdate((prev) => !prev);
     }, 600000);
     setLoading(true);
@@ -58,7 +57,7 @@ export default function Barcelona() {
   return (
     <div className='sm:p-4 flex flex-col gap-y-6'>
       {!data && (
-        <div className='w-full text-[80px] absolute h-full bg-red-100 left-0 top-0 z-50 flex items-center justify-center'>
+        <div id='loading' className='w-full text-[80px] absolute h-full bg-red-100 left-0 top-0 z-50 flex items-center justify-center'>
           <FlashOnIcon fontSize='inherit' />
         </div>
       )}
@@ -86,7 +85,7 @@ export default function Barcelona() {
               <div className='border-b pb-4'>
                 <span className='text-blue-400'>Ahora</span>
                 <p className={`${loading && 'blur'} text-5xl`}>
-                  {data.hourly.temperature_2m[index]}° <span className='text-sm text-gray-400 hidden'>{data.hourly.temperature_2m[index + 1]}</span>
+                  <span id='now'>{data.hourly.temperature_2m[index]}</span>° <span className='text-sm text-gray-400 hidden'>{data.hourly.temperature_2m[index + 1]}</span>
                 </p>
               </div>
               <div className='text-gray-400  pb-2 hover:text-white cursor-pointer'>
